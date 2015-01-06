@@ -3,6 +3,7 @@
 
 	Usage:
 		gcc minicat.c
+		./a.out [<FileName>.....][<Switches>.......]
 		
 		My program accepts all the options accepted by cat (1)
 		Read through man cat to know more.
