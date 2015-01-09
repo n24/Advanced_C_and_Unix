@@ -15,6 +15,8 @@
 # include <sys/stat.h>
 # include <time.h>
 # include <string.h>
+# include <pwd.h>
+# include <grp.h>
 
 void List_Contents ( const char * directory_name );
 
@@ -59,6 +61,8 @@ void List_Contents ( const char * directory_name ) {
 	DIR * dir;
 	struct dirent * dentry;
 	struct stat st;
+	struct passwd * pw;
+	struct group * gr;
 
 	strcpy ( dname, directory_name );
 	if ( dname[strlen ( dname ) - 1] != '/' )
@@ -103,8 +107,10 @@ void List_Contents ( const char * directory_name ) {
 					else putchar ( '-' );
 					printf ( ". " );
 					printf ( "%2d ", st . st_nlink ); 
-					printf ( "%u ", st . st_uid );
-					printf ( "%u ", st . st_gid );
+					pw = getpwuid ( st . st_uid ); 
+					gr = getgrgid ( st . st_gid );
+					printf ( "%s ", pw -> pw_name );
+					printf ( "%s ", gr -> gr_name );
 					printf ( "%6ld ", st . st_size );
 					ctime_r ( & st . st_mtime, time  );
 					time[strlen ( time ) - 9] = '\0';
